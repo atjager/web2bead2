@@ -1,93 +1,23 @@
 <?php
-    class ExchangerateController{
+    class LotteryController{
             public function show(){
                 
-                try {
-                    $client = new SoapClient("http://www.mnb.hu/arfolyamok.asmx?WSDL");
-
-                    $result = (array)simplexml_load_string($client->GetInfo()->GetInfoResult);
-                    
-
-                } catch (SoapFault $e) {
-                    $result = $e;
-                } 
- 
-                $firstDate = $result['FirstDate'];
-                $lastDate = $result['LastDate'];
-                $currencies = $result['Currencies'];
-                
-                require_once('views/exchangerate/show.php');
+                require_once('views/lottery/show.php');
 
             }
 
-            public function exchange($firstCurrency, $secondCurrency, $date){
-                $this->date = $date;
-                $firstExchange = [
-                    'startDate' => $date,
-                    'endDate' => $date,
-                   'currencyNames' => $firstCurrency
-                ];
+            public function getUrl(){
+                return "http://localhost/web2bead2/models/lottery.php";
+            }
 
-                $secondExchange = [
-                    'startDate' => $date,
-                    'endDate' => $date,
-                  'currencyNames' => $secondCurrency
-                ];
-                
-                $checkfirstUnit = [
-                    'currencyNames' => $firstCurrency
-                ];
-
-                $checksecondUnit = [
-                    'currencyNames' => $secondCurrency
-                ];
-
-                try {
-                    $client = new SoapClient("http://www.mnb.hu/arfolyamok.asmx?WSDL");
-
-                    $firstExchangeResult = (array)simplexml_load_string($client->GetExchangeRates($firstExchange)->GetExchangeRatesResult);
-                    
-                } catch (SoapFault $e) {
-                    $firstExchangeResult = $e;
-                }
-
-                try {
-
-                    $secondExchangeResult = (array)simplexml_load_string($client->GetExchangeRates($secondExchange)->GetExchangeRatesResult);
-                    
-                } catch (SoapFault $e) {
-                    $secondExchangeResult = $e;
-                }
-
-                try {
-
-                    $checkfirstUnitResult = (array)simplexml_load_string($client->GetCurrencyUnits($checkfirstUnit)->GetCurrencyUnitsResult);
-                    
-                } catch (SoapFault $e) {
-                    $checkfirstUnitResult  = $e;
-                }
-
-                try {
-
-                    $checksecondUnitResult = (array)simplexml_load_string($client->GetCurrencyUnits($checksecondUnit)->GetCurrencyUnitsResult);
-                    
-                } catch (SoapFault $e) {
-                    $checksecondUnitResult  = $e;
-                }
-
-                // end($firstExchangeResult['Day']) NEED THE END() TO CUT THE ACTUAL VALUE(STRING)
-
-                if(empty($firstExchangeResult) || empty($secondExchangeResult)){
-                    $exchangeRate = "empty";
-                
-                }
-                else{
-                    $firstrate=(float)end($firstExchangeResult['Day'])/(float)end($checkfirstUnitResult['Units']);
-                    $secondtrate=(float)end($secondExchangeResult['Day'])/(float)end($checksecondUnitResult['Units']);
-                    $exchangeRate = $firstrate/$secondtrate;
-                }
-        
-                return $exchangeRate;
+            public function lotteryGet(){
+                $url = $this->getUrl();
+                $curlGet = curl_init($url);
+                curl_setopt($curlGet, CURLOPT_URL, $url);
+                curl_setopt($curlGet, CURLOPT_RETURNTRANSFER, true);
+                $result = curl_exec($curlGet);
+                curl_close($curlGet);
+                return $result;
             }
 
             public function exchangeMonth($firstCurrency, $secondCurrency, $date){

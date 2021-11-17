@@ -24,8 +24,8 @@
       case 'webservice':
         $controller= new WebserviceController();
         break;
-      case 'exchangerate':
-        $controller= new exchangerateController();
+      case 'lottery':
+        $controller= new LotteryController();
         break;
     }
 
@@ -39,7 +39,7 @@
                        'news' => ['home', 'createComment', 'createNews'],
                        'user'=>['login','logout','register'],
                        'webservice' => ['show'],
-                       'exchangerate' => ['show']
+                       'lottery' => ['show']
                       );
 
 
