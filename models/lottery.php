@@ -1,5 +1,5 @@
 <?php
-
+            // require_once('connection.php');
    
             $eredmeny ="";
 
@@ -12,38 +12,46 @@
                             $sql = "SELECT * FROM huzott WHERE id=(SELECT MAX(id) FROM huzott)";     
                             $sth = $db->query($sql);
                             $getRow =  $sth->fetch(PDO::FETCH_ASSOC);
-                            $eredmeny .= "<p>".$getRow['szam']."</p> ";
+                            $eredmeny .= "The latest draw is: <strong> ".$getRow['szam']."</strong> Whit this id: <strong> ".$getRow['id']. "</strong>";
 
                         break;
                     case "POST":
-                            $sql = "insert into felhasznalok values (0, :csn, :un, :bn, :jel)";
+                            $sql = "insert into huzott values (0, 0, :number)";
                             $sth = $db->prepare($sql);
-                            $count = $sth->execute(Array(":csn"=>$_POST["csn"], ":un"=>$_POST["un"], ":bn"=>$_POST["bn"], ":jel"=>$_POST["jel"]));
+                            $count = $sth->execute(Array(":number" => $_POST['number']));
                             $newid = $db->lastInsertId();
-                            $eredmeny .= $count." beszúrt sor: ".$newid;
+                            $eredmeny .= $count." new number add the draw: <strong> ".$_POST['number'].' </strong> With this id: <strong>'.$newid. "</strong>";
                         break;
                     case "PUT":
-                            $data = array();
-                            $incoming = file_get_contents("php://input");
-                            parse_str($incoming, $data);
-                            $modositando = "id=id"; $params = Array(":id"=>$data["id"]);
-                            if($data['csn'] != "") {$modositando .= ", csaladi_nev = :csn"; $params[":csn"] = $data["csn"];}
-                            if($data['un'] != "") {$modositando .= ", utonev = :un"; $params[":un"] = $data["un"];}
-                            if($data['bn'] != "") {$modositando .= ", bejelentkezes = :bn"; $params[":bn"] = $data["bn"];}
-                            if($data['jel'] != "") {$modositando .= ", jelszo = :jel"; $params[":jel"] = sha1($data["jel"]);}
-                            $sql = "update felhasznalok set ".$modositando." where id=:id";
+                            $sqlOld = "SELECT * FROM huzott WHERE id=( SELECT MAX(id) FROM huzott)";
+                            $sthOld = $db -> query($sqlOld);
+                            $getRow = $sthOld->fetch(PDO::FETCH_ASSOC);
+
+                            $sql = "DELETE FROM huzott WHERE id=( SELECT MAX(id) FROM huzott)";
                             $sth = $db->prepare($sql);
-                            $count = $sth->execute($params);
-                            $eredmeny .= $count." módositott sor. Azonosítója:".$data["id"];
+                            $count = $sth->execute();
+
+                            $data = array();
+				            $incoming = file_get_contents("php://input");
+				            parse_str($incoming, $data);
+                            $sqlNew = "insert into huzott values (0, 0, :number)";
+                            $sthNew = $db->prepare($sqlNew);
+                            $countNew = $sthNew->execute(Array(":number" => $data['number']));
+                            $newid = $db->lastInsertId();
+                            $eredmeny .= "<strong>".$getRow["szam"]." (id: ".$getRow["id"].")</strong> Is replaced to: <strong> ".$data['number']
+                                        .' </strong> With this id: <strong>'.$newid. "</strong>";
                         break;
                     case "DELETE":
-                            $data = array();
-                            $incoming = file_get_contents("php://input");
-                            parse_str($incoming, $data);
-                            $sql = "delete from felhasznalok where id=:id";
+                            $sql = "DELETE FROM huzott WHERE id=( SELECT MAX(id) FROM huzott)";
                             $sth = $db->prepare($sql);
-                            $count = $sth->execute(Array(":id" => $data["id"]));
-                            $eredmeny .= $count." sor törölve. Azonosítója:".$data["id"];
+                            $count = $sth->execute();
+
+                            $sqlNew = "SELECT * FROM huzott WHERE id=( SELECT MAX(id) FROM huzott)";
+                            $sthNew = $db -> query($sqlNew);
+                            $getRow = $sthNew->fetch(PDO::FETCH_ASSOC);
+                            $eredmeny .= "The last draw is deleted!";
+                            $eredmeny .= "<br>";
+                            $eredmeny .= "Now the last draw is: <strong>".$getRow['szam']."</strong> Whit this id: ".$getRow["id"]."</strong>";
                         break;
                 }
             }

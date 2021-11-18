@@ -28,13 +28,14 @@
     if(isset($_POST['lotteryNumber']) && $_POST['lotteryNumber']>0 && $_POST['lotteryNumber']<46){
 
         if(isset($_POST['buttonPost'])){
-            $lotteryNumber = $_POST['lotteryNumber'];
+            $lotteryResult = $this->lotteryPost($_POST['lotteryNumber']);
+            echo $lotteryResult;
             
         }
 
         if(isset($_POST['buttonPut'])){
-            $lotteryNumber = $_POST['lotteryNumber'];
-           
+            $lotteryResult = $this->lotteryPut($_POST['lotteryNumber']);
+            echo $lotteryResult;           
         }
         
     }
@@ -50,20 +51,23 @@
 
     if(isset($_POST['buttonGet'])){
         $lotteryResult = $this->lotteryGet();
-        var_dump($lotteryResult);
+        echo $lotteryResult;
      }
 
-     if(isset($_POST['buttonDelet'])){
-         
+     if(isset($_POST['buttonDelete'])){
+        $lotteryResult = $this->lotteryDelete();
+        echo $lotteryResult;
      }
-
 
      
-        $eredmeny = [];
-          
-                $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                $db = new PDO('mysql:host=localhost;dbname=web2bead2', 'root', '', $pdo_options);
-                
+     ?>   
+     <br>
+     <br>
+    <?php 
+       
+             //   $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+               // $db = new PDO('mysql:host=localhost;dbname=web2bead2', 'root', '', $pdo_options);
+                $db= Db::getInstance();
                             $sql = "SELECT * FROM huzott WHERE id=(SELECT MAX(id) FROM huzott)";     
                             $sth = $db->query($sql);
                             $eredmeny =  $sth->fetch(PDO::FETCH_ASSOC);
