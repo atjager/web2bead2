@@ -1,12 +1,12 @@
 <?php
-            // require_once('connection.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'\web2bead2\connection.php');
    
             $eredmeny ="";
 
             try {
-                $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                $db = new PDO('mysql:host=localhost;dbname=web2bead2', 'root', '', $pdo_options);
-                //$db = Db::getInstance();
+                //$pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+                //$db = new PDO('mysql:host=localhost;dbname=web2bead2', 'root', '', $pdo_options);
+                $db = Db::getInstance();
                 switch($_SERVER['REQUEST_METHOD']) {
                     case "GET":
                             $sql = "SELECT * FROM huzott WHERE id=(SELECT MAX(id) FROM huzott)";     

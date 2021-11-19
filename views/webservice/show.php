@@ -1,13 +1,13 @@
 <div class='container is-max-desktop'>
     <div class='box'>
 
-        <label>Válasszon egy évet:</label>
-        <select id = 'yearSelect'></select>
+        <label>Choose a year:</label>
+        <select id = "yearSelect"> </select>
 
         <br><br>
 
-        <label>Város:</label>
-        <select id = 'varosselect'></select>
+        <label>Choose a week:</label>
+        <select id = 'weekSelect'></select>
 
         <br><br>
 
@@ -20,18 +20,19 @@
 
 <?php
 
-$result = array("years" => array());
-try {
-  $db =  Db::getInstance();
-  $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-  $stmt = $db->query('SELECT id, ev, het FROM huzas');
-  while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $result["years"][] = array("id" => $row['id'], "year" => $row['ev'], "week" => $row['het']);
-  }
-}
-catch(PDOException $e) {
-  $result["years"] = $e;
-} 
-
-echo json_encode($result);
-?>
+$re = [];
+$result =[];
+                  try {
+                    $db =  Db::getInstance();
+                   // $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
+                    $stmt = $db->prepare('SELECT ev FROM huzas');
+                    $stmt -> execute();
+                    $re = $stmt -> fetchAll(PDO::FETCH_COLUMN);
+                    $result = array_unique($re);
+                    }
+                  catch(PDOException $e) {
+                    $result = $e;
+                  }
+                //  print_r($re);
+                  print_r($result);
+  ?>

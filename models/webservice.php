@@ -1,21 +1,38 @@
-<?php 
+<?php
+          require_once($_SERVER['DOCUMENT_ROOT'].'\web2bead2\connection.php');
    
             switch($_POST['lotterySelect']) {
                 case 'caseYears':
+                  $result =[];
+                  try {
+                    $db =  Db::getInstance();
+                   // $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
+                    $stmt = $db->prepare('SELECT ev FROM huzas');
+                    $stmt -> execute();
+                    $re = $stmt -> fetchAll(PDO::FETCH_COLUMN);
+                    $result = array_values(array_unique($re));
+                    }
+                  catch(PDOException $e) {
+                    $result = $e;
+                  }
+                  echo json_encode($result);
+                  break;
+                case 'case':
                   $result = array("years" => array());
                   try {
                     $db =  Db::getInstance();
                     $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-                    $stmt = $db->query('SELECT id, ev, het FROM huzas');
+                    $stmt = $db->prepare('SELECT id, ev, het FROM huzas');
                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                           $result["years"][] = array("id" => $row['id'], "year" => $row['ev'], "week" => $row['het']);
                     }
                   }
                   catch(PDOException $e) {
-                  } 
-                  echo json_encode($result);
-                  break;
 
+                  } 
+                    echo json_encode($result);
+                    break;
+  
                /*  case 'varos':
                   $eredmeny = array("lista" => array());
                   try {
