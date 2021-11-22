@@ -11,28 +11,37 @@
 
         <br><br>
 
-        <label>Intézmény:</label>
-        <select id = 'intezmenyselect'></select>
+        <label>Choose a result:</label>
+        <select id = 'resultSelect'></select>
 
     </div>
+
+
+    <div id="hiddenNumbers">
+      
+    </div>
+
+    <p id="hiddenDatas">
+
+    </p>
+
+
 </div>
 
 
 <?php
 
-$re = [];
-$result =[];
-                  try {
-                    $db =  Db::getInstance();
-                   // $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-                    $stmt = $db->prepare('SELECT ev FROM huzas');
-                    $stmt -> execute();
-                    $re = $stmt -> fetchAll(PDO::FETCH_COLUMN);
-                    $result = array_unique($re);
+$result = array("results" => array());
+                    try {
+                      $db =  Db::getInstance();
+                      $stmt = $db->prepare('SELECT id, talalat FROM nyeremeny WHERE huzasid = :huzasid ');
+                      $stmt -> execute(Array(":huzasid" => "47" ));
+                      while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $result["results"][] = array("id" => $row['id'], "result" => $row['talalat']);
+                      }
                     }
-                  catch(PDOException $e) {
-                    $result = $e;
-                  }
-                //  print_r($re);
-                  print_r($result);
+                    catch(PDOException $e) {
+    
+                    } 
+                    echo json_encode($result);
   ?>

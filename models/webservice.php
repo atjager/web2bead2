@@ -6,7 +6,6 @@
                   $result =[];
                   try {
                     $db =  Db::getInstance();
-                   // $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
                     $stmt = $db->prepare('SELECT ev FROM huzas');
                     $stmt -> execute();
                     $re = $stmt -> fetchAll(PDO::FETCH_COLUMN);
@@ -17,14 +16,14 @@
                   }
                   echo json_encode($result);
                   break;
-                case 'case':
-                  $result = array("years" => array());
+                case 'caseWeeks':
+                  $result = array("weeks" => array());
                   try {
                     $db =  Db::getInstance();
-                    $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-                    $stmt = $db->prepare('SELECT id, ev, het FROM huzas');
+                    $stmt = $db->prepare('SELECT id, het FROM huzas WHERE ev = :ev ');
+                    $stmt -> execute(Array(":ev" => $_POST['selectedYear']));
                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                          $result["years"][] = array("id" => $row['id'], "year" => $row['ev'], "week" => $row['het']);
+                          $result["weeks"][] = array("id" => $row['id'], "week" => $row['het']);
                     }
                   }
                   catch(PDOException $e) {
@@ -32,6 +31,21 @@
                   } 
                     echo json_encode($result);
                     break;
+                  case 'caseResult':
+                    $result = array("results" => array());
+                    try {
+                      $db =  Db::getInstance();
+                      $stmt = $db->prepare('SELECT id, talalat FROM nyeremeny WHERE huzasid = :huzasid ');
+                      $stmt -> execute(Array(":huzasid" => $_POST['selectedWeekId']));
+                      while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $result["results"][] = array("id" => $row['id'], "result" => $row['talalat']);
+                      }
+                    }
+                    catch(PDOException $e) {
+    
+                    } 
+                    echo json_encode($result);
+                  break;
   
                /*  case 'varos':
                   $eredmeny = array("lista" => array());
