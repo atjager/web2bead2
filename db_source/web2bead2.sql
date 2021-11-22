@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2021 at 09:23 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.5
+-- Generation Time: Nov 22, 2021 at 06:39 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -7971,6 +7971,31 @@ INSERT INTO `huzott` (`id`, `huzasid`, `szam`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu`
+--
+
+CREATE TABLE `menu` (
+  `url` varchar(128) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `parent` varchar(128) NOT NULL,
+  `permission` int(11) NOT NULL,
+  `orderOfElements` int(11) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`url`, `name`, `parent`, `permission`, `orderOfElements`, `id`) VALUES
+('?', 'Home', '', 0, 0, 1),
+('?controller=lottery&action=show', 'Lottery', '', 0, 0, 2),
+('?controller=news&action=home', 'News', 'Lottery', 0, 0, 3),
+('valamiurl', 'Valami', 'Lottery', 0, 0, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `nyeremeny`
 --
 
@@ -11001,6 +11026,12 @@ ALTER TABLE `huzas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -11009,6 +11040,12 @@ ALTER TABLE `huzas`
 --
 ALTER TABLE `huzas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1130;
+
+--
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
