@@ -4,10 +4,8 @@ function years() {
         {"lotterySelect" : "caseYears"},
         function(data) {
             
-            $("#yearSelect").html('<option value="0">Válasszon ...</option>');       
-            //$("<option>").val("0").text("Válasszon ...").appendTo("#yearSelect");     
+            $("#yearSelect").html('<option value="0">Válasszon ...</option>');          
             for(i=0; i<data.length; i++){
-                //$("#orszagselect").append('<option value="'+lista[i].id+'">'+lista[i].nev+'</option>');
                 $("<option>").val(data[i]).text(data[i]).appendTo("#yearSelect");
             }
         },
@@ -19,6 +17,11 @@ function years() {
 
 
 function weeks(){
+    $('#weekSelect').html("");
+    $('#resultSelect').html("");
+    $('#hiddenNumber').html("");
+    $('#hiddenData').html("");
+    $("#resultSelect").prop('disabled', false);
     const selectedYear = $('#yearSelect').val();
     if(selectedYear !=0){
         $.post(
@@ -26,11 +29,9 @@ function weeks(){
             {"lotterySelect" : "caseWeeks", "selectedYear" : selectedYear},
             function(data) {
                 
-                $("#weekSelect").html('<option value="0">Válasszon ...</option>');       
-                //$("<option>").val("0").text("Válasszon ...").appendTo("#yearSelect");     
+                $("#weekSelect").html('<option value="0">Válasszon ...</option>');          
                 var weeks = data.weeks;
                 for(i=0; i<weeks.length; i++)
-                    //$("#orszagselect").append('<option value="'+lista[i].id+'">'+lista[i].nev+'</option>');
                     $("<option>").val(weeks[i].id).text(weeks[i].week).appendTo("#weekSelect");
             },
             "json"                                                    
@@ -41,6 +42,10 @@ function weeks(){
 }
 
 function results(){
+    $('#resultSelect').html("");
+    $('#hiddenNumber').html("");
+    $('#hiddenData').html("");
+    $("#resultSelect").prop('disabled', false);
     const selectedWeekId = $('#weekSelect').val();
     console.log(selectedWeekId);
     if(selectedWeekId !=0){
@@ -49,16 +54,24 @@ function results(){
             {"lotterySelect" : "caseResult", "selectedWeekId" : selectedWeekId},
             function(data) {
                 if(data.results == 0){
-                    $("#hiddenNumbers").html('<>');
+                    $.post(
+                        "models/webservice.php",
+                        {"lotterySelect" : "numberResult", "selectedWeekId" : selectedWeekId},
+                        function(noResultdata) {
+                            $("#resultSelect").prop('disabled', 'disabled');
+                            $("#hiddenNumber").append("<br> <p> We doesn't no the results of this week! </p> <br>");        
+                            $("#hiddenNumber").append("<p> But the winner numbers was: </p><br>");      
+                            for(i=0; i<noResultdata.length; i++)
+                                $("#hiddenNumber").append("<strong> " + noResultdata[i] + " </strong>");
+                                
+                        },
+                        "json"   
+                    );
                 } else {    
                     $("#resultSelect").html('<option value="0">Válasszon ...</option>');       
-                    //$("<option>").val("0").text("Válasszon ...").appendTo("#yearSelect");     
                     var results = data.results;
                     for(i=0; i<results.length; i++)
-                        //$("#orszagselect").append('<option value="'+lista[i].id+'">'+lista[i].nev+'</option>');
                         $("<option>").val(results[i].id).text(results[i].result).appendTo("#resultSelect");
-                
-                   
                 }
             },
             "json"                                                    
@@ -68,6 +81,34 @@ function results(){
     }
 }
 
+function showResult(){
+    $('#hiddenData').html("");
+    $('#hiddenNumber').html("");
+    const selectedWeekId = $('#weekSelect').val();
+    const selectedResult = $('#resultSelect').val();
+    if(selectedWeekId!=0 && selectedResult!=0){
+        $.post(
+            "models/webservice.php",
+            {"lotterySelect" : "caseShowResult", "selectedWeekId" : selectedWeekId, "selectedResult" : selectedResult},
+            function(data) {  
+                $("#hiddenNumber").append('<br> <p>The winner numbers was: </p>');       
+                let szam = data.szam;
+                for(i=0; i<szam.length; i++)
+                    $("#hiddenNumber").append('<strong>'+ szam[i] +' </strong> ');
+                let darab = data.darab;
+                let ertek = data.ertek;
+                let talalat = data.talalat;
+                
+                $("#hiddenData").append('<br> <p>It was <strong>'+ darab 
+                    +'</strong> draw that match <strong>'+ talalat
+                     +'</strong> <br> The prize was: <strong>'+ertek+' Huf </strong> </p>'); 
+            },
+            "json"                                                    
+        ).fail((xhr, responseStatus, responseText) => {
+            console.log(xhr, responseStatus, responseText);
+        });
+    }
+}
 
     
 
@@ -77,11 +118,6 @@ $(document).ready(function() {
     
     $("#yearSelect").change(weeks);
     $("#weekSelect").change(results);
-    /*$("#intezmenyselect").change(intezmeny);
+    $("#resultSelect").change(showResult);
     
-    $(".adat").hover(function() {
-         $(this).css({"color" : "white", "background-color" : "black"});
-     }, function() {
-         $(this).css({"color" : "black", "background-color" : "white"});
-     }); */
  });
