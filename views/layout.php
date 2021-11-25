@@ -26,6 +26,10 @@
         Lottery
       </a>
 
+      <a href='?controller=reqres&action=show' class="navbar-item">
+        Reqres
+      </a>
+
 
       
       

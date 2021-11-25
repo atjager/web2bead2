@@ -27,6 +27,9 @@
       case 'lottery':
         $controller= new LotteryController();
         break;
+      case 'reqres':
+        $controller= new ReqresController();
+        break;  
     }
 
     $controller->{ $action }();
@@ -39,7 +42,8 @@
                        'news' => ['home', 'createComment', 'createNews'],
                        'user'=>['login','logout','register'],
                        'webservice' => ['show'],
-                       'lottery' => ['show']
+                       'lottery' => ['show'],
+                       'reqres' => ['show']
                       );
 
 
