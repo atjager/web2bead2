@@ -1,8 +1,9 @@
 <div class='container is-max-desktop'>
     <div class='box'>
-
-        <label>Select a date and see the lottery draws!</label>
+        <label>You can select and see the lottery draws from the past!</label>
         <br>
+        <br>
+        <label><strong>Select a date:</strong></label>
         <br>
         <label>Choose a year:</label>
         <select id = "yearSelect"> </select>
