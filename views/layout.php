@@ -11,10 +11,11 @@
     <header>
     <div class="navbar-start">
     <?php 
-    require_once('models/menu.php'); 
+    require_once('models/menu.php');
+    session_start(); 
     echo Menu::generateMenu();
     
-      session_start();
+     
       if(isset($_SESSION['user'])){
         echo'<div class="navbar-end">
         <div class="navbar-item">

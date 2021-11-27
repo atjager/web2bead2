@@ -27,6 +27,14 @@
       case 'lottery':
         $controller= new LotteryController();
         break;
+      case 'admin':
+        require_once('models/user.php');
+        $controller= new AdminController();
+        break;
+      case 'prize':
+        require_once('models/prize.php');
+        $controller = new PrizeController();
+        break;
     }
 
     $controller->{ $action }();
@@ -39,7 +47,9 @@
                        'news' => ['home', 'createComment', 'createNews'],
                        'user'=>['login','logout','register'],
                        'webservice' => ['show'],
-                       'lottery' => ['show']
+                       'lottery' => ['show'],
+                       'admin' => ['show', 'deleteUser'],
+                       'prize' => ['home']
                       );
 
 

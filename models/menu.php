@@ -38,6 +38,12 @@ class Menu
     }
 
     public static function generateMenu(){
+        if(isset($_SESSION['role'])){
+            $role = $_SESSION['role'];
+        }else{
+            $role = 2;
+        }
+            
         $staticMenus = [];
         $parentMenus = [];
         $menuString = "";
@@ -59,15 +65,23 @@ class Menu
                     $parentMenus [] = $menuElement;
                 
                 }
-        }
+               
+        } 
+        
         foreach($staticMenus as $menu){
-            $menuString .= '<a class="navbar-item" href="'.$menu->url.'">
-            '.$menu->name.'
-          </a>';
+                if($role <= $menu->permission){
+
+                $menuString .= '<a class="navbar-item" href="'.$menu->url.'">
+                '.$menu->name.'
+                </a>';
+                }
+           
+          
         }
         foreach($parentMenus as $menu){
+            if($role <= $menu->permission){
             $menuString.='<div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="https://bulma.io/documentation/overview/start/">'.$menu->name.'<a><div class="navbar-dropdown is-boxed">';
+            <a class="navbar-link" href="'.$menu->url.'">'.$menu->name.'<a><div class="navbar-dropdown is-boxed">';
             foreach(Menu::all() as $menuElement){
                 if($menu->name == $menuElement->parent){
                    $menuString.='  <a class="navbar-item" href="'.$menuElement->url.'">
@@ -75,6 +89,7 @@ class Menu
                  </a>';
                 }
             }
+        }
             $menuString.='</div></div>';
         }
         return $menuString;
