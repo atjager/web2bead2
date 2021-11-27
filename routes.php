@@ -35,6 +35,11 @@
         require_once('models/prize.php');
         $controller = new PrizeController();
         break;
+      case 'pdf':
+        require_once('models/prize.php');
+        require_once('tcpdf/tcpdf.php');
+        $controller = new PdfController();
+        break;
     }
 
     $controller->{ $action }();
@@ -49,7 +54,8 @@
                        'webservice' => ['show'],
                        'lottery' => ['show'],
                        'admin' => ['show', 'deleteUser'],
-                       'prize' => ['home']
+                       'prize' => ['home'],
+                       'pdf' => ['home', 'export']
                       );
 
 
