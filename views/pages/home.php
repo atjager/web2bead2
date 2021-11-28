@@ -1,11 +1,22 @@
+<div class="container">
+  <div class="columns is-mobile is-vcentered">
+    <div class="column is-6">
+      <img src="img/lottery.png">
+    </div>
+    
+    <div class="column">
+      <span class="title">
+        Pick 6
 
- <div class="columns is-centered is-vcentered">
-  <div class="column is-two-fifths">
-    <img  src="img/office.png" alt="">
-  </div>
-  <div class="column">
-    <span class="title">Software installation and maintenance</span><br>
-    <span class="subtitle">Once you choose the right software solution, you will have to integrate it into your business.
-        This includes installing the software into your existing systems, carrying out regular maintenance and finding support for your software when you need it.</span>
+      </span>
+      <br>
+      <br>
+        <span class="subtitle">
+        Pick six(6) numbers between 1-45 <br>
+        Pick-6 drawings are held every Monday & Thursday at approximately 10:57 pm.<br>
+        Purchase your Pick-6 tickets prior to 10:53 pm on Monday & Thursday for the drawing.<br>
+        Add XTRA to increase your non-jackpot prizes and win $2 for matching two numbers.<br>
+        </span>
+    </div>
   </div>
 </div>

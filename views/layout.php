@@ -10,12 +10,13 @@
   <body>
     <header>
     <div class="navbar-start">
+
     <?php 
     require_once('models/menu.php');
     session_start(); 
     echo Menu::generateMenu();
     
-     
+  
       if(isset($_SESSION['user'])){
         echo'<div class="navbar-end">
         <div class="navbar-item">
@@ -47,9 +48,10 @@
 
     <?php require_once('routes.php'); ?>
 
-    <footer>
+    
+    </body>
+  <footer>
       
-    </footer>
-  <body>
+  </footer>
 <html>
 

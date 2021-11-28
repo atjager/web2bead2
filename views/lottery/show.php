@@ -18,12 +18,10 @@
             <input class="button is-primary" type="submit" name="buttonPut" value="Replace last number">
             <input class="button is-primary" type="submit" name="buttonGet" value="Show last number">
             <input class="button is-primary" type="submit" name="buttonDelete" value="Delete last number">
-        </div>
+        
     </form>
 
-</div>
-
-<?php 
+    <?php 
 
     if(isset($_POST['lotteryNumber']) && $_POST['lotteryNumber']>0 && $_POST['lotteryNumber']<46){
 
@@ -42,7 +40,7 @@
     else{
         if(isset($_POST['lotteryNumber'])){
             ?>
-                <div class='box'>
+                <div class='box' id="errorMessege">
                     Please be sure the number is between 1 and 45!
                 </div>
             <?php
@@ -50,25 +48,27 @@
     }    
 
     if(isset($_POST['buttonGet'])){
+        ?>
+            <script>
+                $('#errorMessege').hide();
+            </script>
+        <?php
         $lotteryResult = $this->lotteryGet();
         echo $lotteryResult;
      }
 
      if(isset($_POST['buttonDelete'])){
+        ?>
+        <script>
+            $('#errorMessege').hide();
+        </script>
+        <?php
         $lotteryResult = $this->lotteryDelete();
         echo $lotteryResult;
      }
 
      
-     ?>   
-     <br>
-     <br>
-    <?php 
-       
-             //   $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-               // $db = new PDO('mysql:host=localhost;dbname=web2bead2', 'root', '', $pdo_options);
-                $db= Db::getInstance();
-                            $sql = "SELECT * FROM huzott WHERE id=(SELECT MAX(id) FROM huzott)";     
-                            $sth = $db->query($sql);
-                            $eredmeny =  $sth->fetch(PDO::FETCH_ASSOC);
-                            print_r( $eredmeny);
+?>
+</div>
+</div>
+

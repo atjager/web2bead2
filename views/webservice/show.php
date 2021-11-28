@@ -1,6 +1,10 @@
 <div class='container is-max-desktop'>
     <div class='box'>
-
+        <label>You can select and see the lottery draws from the past!</label>
+        <br>
+        <br>
+        <label><strong>Select a date:</strong></label>
+        <br>
         <label>Choose a year:</label>
         <select id = "yearSelect"> </select>
 
@@ -11,28 +15,15 @@
 
         <br><br>
 
-        <label>Intézmény:</label>
-        <select id = 'intezmenyselect'></select>
+        <label>Choose a result:</label>
+        <select id = 'resultSelect'></select>
 
+        <div id="hiddenNumber">
+      
+        </div>
+
+        <div id="hiddenData">
+
+        </div>
     </div>
 </div>
-
-
-<?php
-
-$re = [];
-$result =[];
-                  try {
-                    $db =  Db::getInstance();
-                   // $db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-                    $stmt = $db->prepare('SELECT ev FROM huzas');
-                    $stmt -> execute();
-                    $re = $stmt -> fetchAll(PDO::FETCH_COLUMN);
-                    $result = array_unique($re);
-                    }
-                  catch(PDOException $e) {
-                    $result = $e;
-                  }
-                //  print_r($re);
-                  print_r($result);
-  ?>
