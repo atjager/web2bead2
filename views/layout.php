@@ -66,8 +66,9 @@
 
     <?php require_once('routes.php'); ?>
 
-    <footer>
+    
+    </body>
+  <footer>
       
-    </footer>
-  <body>
+  </footer>
 <html>
