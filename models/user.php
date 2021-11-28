@@ -6,6 +6,8 @@
     public $username;
     public $password;
     public $role;
+    public $last_name;
+    public $first_name;
 
     public function __construct($id, $username, $password, $role, $first_name, $last_name) {
       $this->id      = $id;
@@ -49,6 +51,11 @@
         $password=sha1($password);
         $req = $db->query("INSERT INTO users (username, password, role, first_name, last_name) VALUES ('$username','$password','$role','$first_name','$last_name')");
         
+      }
+
+      public static function deleteUser($username){
+        $db = Db::getInstance();
+        $req = $db->query("DELETE FROM users WHERE username='$username'");
       }
       
     }

@@ -1,34 +1,21 @@
 <DOCTYPE html>
 <html>
   <head>
+  <script type="text/javascript" src = "js/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <script src="https://code.highcharts.com/highcharts.js"></script>  
-  <script src="https://code.highcharts.com/highcharts.js"></script>  
+   
+  <script type="text/javascript" src="js/lottery.js"></script>
 </head>
   <body>
     <header>
     <div class="navbar-start">
-      <a  href='?' class="navbar-item">
-        Home
-      </a>
-
-      <a href='?controller=news&action=home' class="navbar-item">
-        News
-      </a>
-
-      <a href='?controller=webservice&action=show' class="navbar-item">
-        Webservice
-      </a>
-
-      <a href='?controller=exchangerate&action=show' class="navbar-item">
-        Exchange Rate
-      </a>
-
-
-      
-      
-      <?php 
-      session_start();
+    <?php 
+    require_once('models/menu.php');
+    session_start(); 
+    echo Menu::generateMenu();
+    
+     
       if(isset($_SESSION['user'])){
         echo'<div class="navbar-end">
         <div class="navbar-item">
@@ -65,3 +52,4 @@
     </footer>
   <body>
 <html>
+

@@ -24,8 +24,21 @@
       case 'webservice':
         $controller= new WebserviceController();
         break;
-      case 'exchangerate':
-        $controller= new exchangerateController();
+      case 'lottery':
+        $controller= new LotteryController();
+        break;
+      case 'admin':
+        require_once('models/user.php');
+        $controller= new AdminController();
+        break;
+      case 'prize':
+        require_once('models/prize.php');
+        $controller = new PrizeController();
+        break;
+      case 'pdf':
+        require_once('models/prize.php');
+        require_once('tcpdf/tcpdf.php');
+        $controller = new PdfController();
         break;
     }
 
@@ -39,7 +52,10 @@
                        'news' => ['home', 'createComment', 'createNews'],
                        'user'=>['login','logout','register'],
                        'webservice' => ['show'],
-                       'exchangerate' => ['show']
+                       'lottery' => ['show'],
+                       'admin' => ['show', 'deleteUser'],
+                       'prize' => ['home'],
+                       'pdf' => ['home', 'export']
                       );
 
 
