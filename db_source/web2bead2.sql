@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 06:39 PM
+-- Generation Time: Nov 28, 2021 at 03:31 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -7966,7 +7966,10 @@ INSERT INTO `huzott` (`id`, `huzasid`, `szam`) VALUES
 (7058, 265, 36),
 (7059, 1071, 13),
 (7060, 259, 8),
-(7061, 776, 8);
+(7061, 776, 8),
+(7062, 0, 43),
+(13846, 0, 23),
+(13848, 0, 45);
 
 -- --------------------------------------------------------
 
@@ -7988,10 +7991,14 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`url`, `name`, `parent`, `permission`, `orderOfElements`, `id`) VALUES
-('?', 'Home', '', 0, 0, 1),
-('?controller=lottery&action=show', 'Lottery', '', 0, 0, 2),
-('?controller=news&action=home', 'News', 'Lottery', 0, 0, 3),
-('valamiurl', 'Valami', 'Lottery', 0, 0, 4);
+('?', 'Home', '', 2, 0, 1),
+('?', 'Lottery', '', 2, 0, 2),
+('?controller=prize&action=home', 'Prizes', 'Lottery', 2, 0, 3),
+('?controller=pdf&action=home', 'Pdf export', 'Lottery', 2, 0, 4),
+('?controller=webservice&action=show', 'Webservice', '', 1, 0, 5),
+('?controller=reqres&action=show', 'Reqres API', '', 1, 0, 6),
+('?controller=admin&action=show', 'Admin panel', '', 0, 0, 7),
+('?controller=lottery&action=show', 'Draw history', 'Lottery', 2, 0, 8);
 
 -- --------------------------------------------------------
 
@@ -11015,6 +11022,29 @@ INSERT INTO `nyeremeny` (`id`, `huzasid`, `talalat`, `darab`, `ertek`) VALUES
 (3151, 453, 3, 47124, 583),
 (3152, 356, 5, 52, 138683);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `role` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_name`, `last_name`) VALUES
+(4, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 'admin', 'admin'),
+(6, 'bela', '50eb453581f9126f30d21821445c2cd75d2b4165', 1, 'bela', 'bela');
+
 --
 -- Indexes for dumped tables
 --
@@ -11026,9 +11056,21 @@ ALTER TABLE `huzas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `huzott`
+--
+ALTER TABLE `huzott`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `menu`
 --
 ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -11042,10 +11084,22 @@ ALTER TABLE `huzas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1130;
 
 --
+-- AUTO_INCREMENT for table `huzott`
+--
+ALTER TABLE `huzott`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13849;
+
+--
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

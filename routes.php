@@ -57,7 +57,7 @@
                        'webservice' => ['show'],
                        'lottery' => ['show'],
 
-                       'reqres' => ['show']
+                       'reqres' => ['show'],
 
                        'admin' => ['show', 'deleteUser'],
                        'prize' => ['home'],

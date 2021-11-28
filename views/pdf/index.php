@@ -1,5 +1,6 @@
 <div class='container is-max-desktop'>
 <div class='box' id='exfrom'>
+<div><p class="subtitle" style="margin-bottom:15px;">Válassza ki, hogy hány találatos szelvényekről kíván lekérdezést megjeleníteni!</p></div>
 <form action="?controller=pdf&action=export" method="POST">
   <label for="hit">Lottery hit</label>
   <select name="hit" id="hit">

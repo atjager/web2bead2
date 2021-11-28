@@ -12,6 +12,7 @@ foreach($prizes as $prize){
 
 
 ?>
+<div style="margin-left:10px"><p class="title">6 találatos szelvények nyereményei</p></div>
  <div id="chartDiv" class="content" style="padding:0">
         
         <div class="loaddata loadcontent">
