@@ -1,3 +1,5 @@
+<div class='container is-max-desktop'>
+<div class='box' id='exfrom'>
 <form action="?controller=pdf&action=export" method="POST">
   <label for="hit">Lottery hit</label>
   <select name="hit" id="hit">
@@ -11,3 +13,5 @@
   <br><br>
   <input type="submit" class="button" value="Export pdf">
 </form>
+</div>
+</div>
