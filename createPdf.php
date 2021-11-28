@@ -1,6 +1,24 @@
 <?php
  require_once('tcpdf/tcpdf.php');
-        
+ require_once('models/prize.php');
+ require_once('connection.php');
+ $result = PrizeQuery::getPrizes($_GET['hit']);
+        $html ='
+        <html>
+            <head>
+            <style>
+			table {border-collapse: collapse;}
+            th{padding: 2px;}
+			td {border: 1px solid black;}
+		</style>
+            </head>
+            <body>
+               <table><tr><th>Év</th><th>Hét</th><th>Számok</th><th>Nyeremény</th></tr>';
+        foreach($result as $prize){
+            $html.='<tr><td>'. $prize->year.'</td><td> '.$prize->week.'</td><td> '.implode(',',$prize->nums).'</td><td> '.$prize->value.' Ft</td></tr>';
+       }
+
+       $html.='</table></body></html>';
 
         
  // create new PDF document
@@ -12,7 +30,7 @@
  $pdf->SetTitle('Nyeremények');
  //$pdf->SetSubject('Web-programozás II - 3. Labor - TCPDF');
  //$pdf->SetKeywords('TCPDF, PDF, Web-programozás II, Labor3');
- $pdf->SetHeaderData("nje.png", 25, "Nyeremények listája", "Web-programozás II\n2. beadandó\n6. feladat\n".date('Y.m.d',time()));
+ $pdf->SetHeaderData("lotto.jpg", 25, $_GET['hit']."-találatos nyeremények listája", "Web-programozás II\n2. beadandó\n6. feladat\n".date('Y.m.d',time()));
  // set header and footer fonts
  $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
  $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -29,8 +47,7 @@
  $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
  $pdf->SetFont('helvetica', '', 10);
  $pdf->AddPage();
- 
- $html = $_POST['html'];
+
  
  $pdf->writeHTML($html, true, false, true, false, '');
  
