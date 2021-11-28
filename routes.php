@@ -30,6 +30,19 @@
       case 'reqres':
         $controller= new ReqresController();
         break;  
+      case 'admin':
+        require_once('models/user.php');
+        $controller= new AdminController();
+        break;
+      case 'prize':
+        require_once('models/prize.php');
+        $controller = new PrizeController();
+        break;
+      case 'pdf':
+        require_once('models/prize.php');
+        require_once('tcpdf/tcpdf.php');
+        $controller = new PdfController();
+        break;
     }
 
     $controller->{ $action }();
@@ -43,7 +56,13 @@
                        'user'=>['login','logout','register'],
                        'webservice' => ['show'],
                        'lottery' => ['show'],
+
                        'reqres' => ['show']
+
+                       'admin' => ['show', 'deleteUser'],
+                       'prize' => ['home'],
+                       'pdf' => ['home', 'export']
+
                       );
 
 

@@ -16,7 +16,8 @@ class UserController{
                     $_SESSION['user']=$user->username;
                     $_SESSION['first_name']=$user->first_name;
                     $_SESSION['last_name']=$user->last_name;
-                    //echo $user->username; 
+                    $_SESSION['role']=$user->role;
+                    //echo $_SESSION['role'];
                     header('Location: ?controller=pages&action=authDone');
                 }
                 else{
@@ -41,7 +42,7 @@ class UserController{
             }
             $registerUser=User::find($_POST['username']);
             if($registerUser==null){
-                $registerUser=User::insertUser($_POST['username'],$_POST['password'],2,$_POST['first_name'],$_POST['last_name']);
+                $registerUser=User::insertUser($_POST['username'],$_POST['password'],1,$_POST['first_name'],$_POST['last_name']);
 
             }
             else{

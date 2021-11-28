@@ -10,31 +10,13 @@
   <body>
     <header>
     <div class="navbar-start">
-      <a  href='?' class="navbar-item">
-        Home
-      </a>
 
-      <a href='?controller=news&action=home' class="navbar-item">
-        News
-      </a>
-
-      <a href='?controller=webservice&action=show' class="navbar-item">
-        Webservice
-      </a>
-
-      <a href='?controller=lottery&action=show' class="navbar-item">
-        Lottery
-      </a>
-
-      <a href='?controller=reqres&action=show' class="navbar-item">
-        Reqres
-      </a>
-
-
-      
-      
-      <?php 
-      session_start();
+    <?php 
+    require_once('models/menu.php');
+    session_start(); 
+    echo Menu::generateMenu();
+    
+  
       if(isset($_SESSION['user'])){
         echo'<div class="navbar-end">
         <div class="navbar-item">
@@ -72,3 +54,4 @@
       
   </footer>
 <html>
+
