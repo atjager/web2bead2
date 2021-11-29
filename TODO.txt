@@ -1,1 +1,0 @@
-web2bead2 database huzott table id row need to be Primary Key and Auto increment!

@@ -6,17 +6,6 @@
       case 'pages':
         $controller = new PagesController();
       break;
-      case 'posts':
-        // we need the model to query the database later in the controller
-        require_once('models/post.php');
-        $controller = new PostsController();
-      break;
-      case 'news':
-        $controller= new NewsController();
-        require_once('models/post.php');
-        require_once('models/comment.php');
-        break;
-
       case 'user':
         require_once('models/user.php');
         $controller= new UserController();
@@ -62,7 +51,6 @@
                        'admin' => ['show', 'deleteUser'],
                        'prize' => ['home'],
                        'pdf' => ['home', 'export']
-
                       );
 
 
